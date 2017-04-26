@@ -16,13 +16,14 @@ public class ConnectionFactory
     }
     catch (ClassNotFoundException e)
     {
-       throw new RuntimeException(e);
+    	e.printStackTrace();
+		throw new RuntimeException("Driver de JDBC não encontrado!");
     }
  }
  
  // -----------------------------------------------------------
  // Obtém conexão com o banco de dados
- public Connection getConnection() throws SQLException
+ public static Connection getConnection() throws SQLException
  {
     return DriverManager.getConnection(
        "jdbc:mysql://localhost:3306/SCP?user=alunos&password=alunos");

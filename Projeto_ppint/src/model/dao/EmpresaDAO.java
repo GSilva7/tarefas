@@ -10,16 +10,12 @@ import model.javabean.Empresa;
 
 public class EmpresaDAO
 {
-	public Connection getConnection() throws SQLException 
-	{
-		return DriverManager
-		.getConnection("jdbc:mysql://localhost:3306/SCP?user=alunos&password=alunos");
-	}
 	
    public void consultarEmpresa(Empresa empresa)
    {
       String sqlSelect = "SELECT * FROM Empresa WHERE cnpj = ?";
-      try (Connection conn = getConnection(); PreparedStatement stm = conn.prepareStatement(sqlSelect);)
+      try(Connection conn = ConnectionFactory.getConnection();
+				PreparedStatement stm = conn.prepareStatement(sqlSelect);)
       {
          stm.setInt(1, empresa.getCnpj());
          try(ResultSet rs = stm.executeQuery();)
@@ -55,15 +51,14 @@ public class EmpresaDAO
    
    public void cadastrarEmpresa(Empresa empresa)
    {
-      String sqlInsert = "INSERT INTO Empresa VALUES (?, ?, ?, ?)";
-      try (Connection conn = getConnection(); PreparedStatement stm = conn.prepareStatement(sqlInsert);)
+      String sqlInsert = "INSERT INTO Empresa (razaoSocial, horarioAbertura, horarioFechamento) VALUES (?, ?, ?)";
+      try (Connection conn = ConnectionFactory.getConnection(); PreparedStatement stm = conn.prepareStatement(sqlInsert);)
       {
-         stm.setInt(1, empresa.getCnpj());
-         stm.setString(2, empresa.getRazaosocial());         
-         stm.setTime(3, empresa.getHorarioAbertura()); 
-         stm.setTime(4, empresa.getHorarioFechamento());
+         stm.setString(1, empresa.getRazaosocial());         
+         stm.setTime(2, empresa.getHorarioAbertura()); 
+         stm.setTime(3, empresa.getHorarioFechamento());
          stm.execute();
-         String sqlQuery = "SELECT LAST_INSERT_CNPJ()";
+         String sqlQuery = "SELECT LAST_INSERT_ID()";
          try(PreparedStatement stm2 = conn.prepareStatement(sqlQuery); ResultSet rs = stm2.executeQuery();)
          {
         	 if(rs.next())
@@ -89,7 +84,7 @@ public class EmpresaDAO
    {
       String sqlDelete = "DELETE FROM Empresa WHERE cnpj = ?";
 
-      try (Connection conn = getConnection(); PreparedStatement stm = conn.prepareStatement(sqlDelete);)
+      try (Connection conn = ConnectionFactory.getConnection(); PreparedStatement stm = conn.prepareStatement(sqlDelete);)
       {
          stm.setInt(1, empresa.getCnpj());
          stm.execute();
@@ -107,7 +102,7 @@ public class EmpresaDAO
    {
       String sqlAltera = "UPDATE Empresa SET razaoSocial = ?, horarioAbertura = ? , horarioFechamento = ? where cnpj = ?";
       
-      try (Connection conn = getConnection(); PreparedStatement stm = conn.prepareStatement(sqlAltera);)
+      try (Connection conn = ConnectionFactory.getConnection(); PreparedStatement stm = conn.prepareStatement(sqlAltera);)
       {
          stm.setString(1, empresa.getRazaosocial());
          stm.setTime(2, empresa.getHorarioAbertura());
