@@ -14,13 +14,13 @@ import model.javabean.Empresa;
 import model.service.EmpresaService;
 
 /**
- * Servlet implementation class CadastrarEmpresaController
+ * Servlet implementation class AlterarEmpresaController
  */
-@WebServlet("/CadastrarEmpresa.do")
-public class CadastrarEmpresaController extends HttpServlet 
+@WebServlet("/AlterarEmpresa.do")
+public class AlterarEmpresaController extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
-       
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		doPost(request, response);
@@ -34,17 +34,19 @@ public class CadastrarEmpresaController extends HttpServlet
 		String pRazao = request.getParameter("razao");
 		String pAbertura = request.getParameter("horarioabertura") + ":00";
 		String pFechamento = request.getParameter("horariofechamento") + ":00";
+		int pCnpj = Integer.parseInt(request.getParameter("cnpj"));
 		
 		Empresa empresa = new Empresa();
 		empresa.setRazaosocial(pRazao);
 		empresa.setHorarioAbertura(Time.valueOf(pAbertura));
 		empresa.setHorarioFechamento(Time.valueOf(pFechamento));
+		empresa.setCnpj(pCnpj);
 		
 		EmpresaService service = new EmpresaService();
-		service.criar(empresa);
+		service.atualizar(empresa);
 		
 		PrintWriter out = response.getWriter();
-		out.println("<html><head><title>Empresa Alterada</title></head><body>");
+		out.println("<html><head><title>Empresa Cadastrada</title></head><body>");
 		out.println( "CNPJ: "+ empresa.getCnpj() + "<br>");
 		out.println( "Razão Social: "+ empresa.getRazaosocial() + "<br>");
 		out.println( "Horario de Abertura: "+ empresa.getHorarioAbertura().toString() + "<br>");

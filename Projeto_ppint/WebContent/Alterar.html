@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Alterar Empresa</title>
+	</head>
+	<body>
+		<form action="AlterarEmpresa.do" method="get">
+			<label>
+				CNPJ
+				<input type="number" name="cnpj" required>
+			</label>
+			<br>
+			<label>
+				Razão Social
+				<input type="Text" name="razaosocial" required>
+			</label>
+			<br>
+			<label>
+				Horario de Abertura
+				<input type="time" name="ha" required>
+			</label>
+			<br>
+			<label>
+				Horario de Fechamento
+				<input type="time" name="hf" required>
+			</label>
+			<br><br>
+			<input type="submit" value="Alterar">
+		</form>
+	</body>
+</html>
